@@ -7,7 +7,7 @@ import { useCars } from '../hooks/useCars'
 
 const Cars = () => {
   const [input, setInput] = useState('')
-  const { data: cars = [], isLoading } = useCars()
+  const { data: cars = [], isLoading, isError, error } = useCars()
 
   const filtered = cars.filter(car =>
     `${car.brand} ${car.model} ${car.category} ${car.location} ${car.fuel_type}`
@@ -44,6 +44,13 @@ const Cars = () => {
               {[...Array(6)].map((_, i) => <CarCardSkeleton key={i} />)}
             </div>
           </>
+        ) : isError ? (
+          <div className='xl:px-20 max-w-7xl mx-auto'>
+            <div className='bg-red-50 border border-red-200 rounded-xl p-6 text-center'>
+              <p className='text-red-600 font-semibold text-lg mb-1'>⚠️ Could not load cars</p>
+              <p className='text-red-500 text-sm'>{error?.message || 'Unable to connect to the server. Please try again later.'}</p>
+            </div>
+          </div>
         ) : (
           <>
             <p className='text-gray-500 xl:px-20 max-w-7xl mx-auto'>

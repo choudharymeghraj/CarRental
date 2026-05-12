@@ -12,7 +12,9 @@ const AppContext = createContext();
 export const AppProvider = ({ children }) => {
     const navigate = useNavigate();
     const currency = import.meta.env.VITE_CURRENCY || '$';
-    const apiBaseUrl = import.meta.env.VITE_API_URL || import.meta.env.VITE_BASE_URL || (import.meta.env.DEV ? 'http://localhost:3000' : '');
+    // VITE_API_URL must be set in Vercel dashboard pointing to your deployed backend (e.g. Render URL)
+    // In dev, falls back to localhost:3000
+    const apiBaseUrl = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://localhost:3000' : '');
 
     const [token,     setToken]     = useState(() => localStorage.getItem('token'));
     const [user,      setUser]      = useState(null);
@@ -23,8 +25,12 @@ export const AppProvider = ({ children }) => {
     useEffect(() => {
         axios.defaults.baseURL = apiBaseUrl;
 
-        if (!apiBaseUrl && !import.meta.env.DEV) {
-            console.warn('Set VITE_API_URL in Vercel so the frontend can reach the backend API.');
+        if (!apiBaseUrl) {
+            console.error(
+                '[CarRental] ❌ No backend URL configured!\n' +
+                'Go to Vercel Dashboard → Project → Settings → Environment Variables\n' +
+                'Add: VITE_API_URL = https://your-backend.onrender.com'
+            );
         }
     }, [apiBaseUrl]);
 

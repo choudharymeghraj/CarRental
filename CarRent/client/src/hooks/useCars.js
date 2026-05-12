@@ -9,8 +9,9 @@ export const useCars = () =>
         queryKey: ['cars'],
         queryFn: async () => {
             const { data } = await axios.get('/api/user/cars');
-            if (!data.success) throw new Error(data.message);
-            return data.cars;
+            if (!data.success) throw new Error(data.message || 'Failed to fetch cars');
+            return data.cars ?? [];
         },
         staleTime: 60_000,
+        retry: 2,
     });
