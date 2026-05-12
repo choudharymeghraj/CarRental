@@ -8,6 +8,7 @@ import bookingRouter from "./routes/bookingRoutes.js";
 import paymentRouter from "./routes/paymentRoutes.js";
 
 const app = express();
+export default app; // Export for Vercel
 const PORT = process.env.PORT || 3000;
 const isProduction = process.env.NODE_ENV === "production";
 const allowStartWithoutDb = process.env.ALLOW_START_WITHOUT_DB === "true" || !isProduction;
@@ -79,4 +80,10 @@ const startServer = async () => {
     }
 };
 
-startServer();
+// For local development
+if (process.env.NODE_ENV !== "production") {
+    startServer();
+} else {
+    // In production (Vercel), we still need to connect to the DB
+    connectDB().catch(err => console.error("DB connection error:", err));
+}
