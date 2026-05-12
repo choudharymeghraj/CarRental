@@ -12,6 +12,7 @@ const AppContext = createContext();
 export const AppProvider = ({ children }) => {
     const navigate = useNavigate();
     const currency = import.meta.env.VITE_CURRENCY || '$';
+    const apiBaseUrl = import.meta.env.VITE_API_URL || import.meta.env.VITE_BASE_URL || (import.meta.env.DEV ? 'http://localhost:3000' : '');
 
     const [token,     setToken]     = useState(() => localStorage.getItem('token'));
     const [user,      setUser]      = useState(null);
@@ -20,8 +21,12 @@ export const AppProvider = ({ children }) => {
 
     // ── Configure axios ──────────────────────────────────────────────────────
     useEffect(() => {
-        axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
-    }, []);
+        axios.defaults.baseURL = apiBaseUrl;
+
+        if (!apiBaseUrl && !import.meta.env.DEV) {
+            console.warn('Set VITE_API_URL in Vercel so the frontend can reach the backend API.');
+        }
+    }, [apiBaseUrl]);
 
     // ── Fetch user profile ──────────────────────────────────────────────────
     const fetchUser = async () => {
