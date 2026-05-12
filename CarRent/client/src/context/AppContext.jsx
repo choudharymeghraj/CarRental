@@ -11,7 +11,7 @@ const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
     const navigate = useNavigate();
-    const currency = import.meta.env.VITE_CURRENCY || '$';
+    const currency = import.meta.env.VITE_CURRENCY || '₹';
     // VITE_API_URL must be set in Vercel dashboard pointing to your deployed backend (e.g. Render URL)
     // In dev, falls back to localhost:3000
     const apiBaseUrl = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://localhost:3000' : '');

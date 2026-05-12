@@ -12,7 +12,7 @@ const CarDetails = () => {
   const { id } = useParams()
   const navigate = useNavigate()
   const { axios, token, setShowLogin } = useAppContext()
-  const currency = import.meta.env.VITE_CURRENCY || '$'
+  const currency = import.meta.env.VITE_CURRENCY || '₹'
 
   // Local date state (removed from Context)
   const [pickupDate, setPickupDate] = useState('')
