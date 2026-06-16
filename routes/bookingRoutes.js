@@ -8,7 +8,7 @@ import {
     cancelBooking,
     editBooking,
 } from "../controllers/bookingController.js";
-import { protect } from "../middleware/auth.js";
+import { protect, isOwner } from "../middleware/auth.js";
 import { validate } from "../middleware/validate.js";
 import {
     createBookingSchema,
@@ -32,8 +32,8 @@ const createLimiter = rateLimit({
 bookingRouter.post("/check-availability", protect, checkAvailabilityOfCar);
 bookingRouter.post("/create",             protect, createLimiter, validate(createBookingSchema), createBooking);
 bookingRouter.get("/user",                protect, getUserBookings);
-bookingRouter.get("/owner",               protect, getOwnerBookings);
-bookingRouter.post("/change-status",      protect, validate(changeStatusSchema),  changeBookingStatus);
+bookingRouter.get("/owner",               protect, isOwner, getOwnerBookings);
+bookingRouter.post("/change-status",      protect, isOwner, validate(changeStatusSchema),  changeBookingStatus);
 bookingRouter.post("/cancel",             protect, validate(cancelBookingSchema),  cancelBooking);
 bookingRouter.post("/edit",               protect, validate(editBookingSchema),    editBooking);
 

@@ -14,10 +14,20 @@ const generateToken = (userId) => {
 // ✅ Register
 export const registerUser = async (req, res) => {
     try {
-        const { name, email, password } = req.body
+        const { name, email, password, role } = req.body
 
         if (!name || !email || !password || password.length < 8) {
             return res.json({ success: false, message: 'Fill all the fields' })
+        }
+
+        // Validate role if provided
+        let userRole = "user";
+        if (role) {
+            if (["user", "owner"].includes(role)) {
+                userRole = role;
+            } else {
+                return res.json({ success: false, message: 'Invalid user role' })
+            }
         }
 
         const userExists = await User.findOne({ email })
@@ -30,12 +40,22 @@ export const registerUser = async (req, res) => {
         const user = await User.create({
             name,
             email,
-            password: hashedPassword
+            password: hashedPassword,
+            role: userRole
         })
 
         const token = generateToken(user._id.toString())
 
-        res.json({ success: true, token })
+        res.json({
+            success: true,
+            token,
+            user: {
+                name: user.name,
+                email: user.email,
+                role: user.role,
+                image: user.image
+            }
+        })
 
     } catch (error) {
         console.log(error)
@@ -60,7 +80,16 @@ export const loginUser = async (req, res) => {
 
         const token = generateToken(user._id.toString())
 
-        res.json({ success: true, token })
+        res.json({
+            success: true,
+            token,
+            user: {
+                name: user.name,
+                email: user.email,
+                role: user.role,
+                image: user.image
+            }
+        })
 
     } catch (error) {
         console.log(error.message)

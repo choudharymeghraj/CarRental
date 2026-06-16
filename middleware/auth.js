@@ -27,3 +27,12 @@ export const protect = async (req, res, next) => {
         return res.json({ success: false, message: "not authorized" })
     }
 }
+
+export const isOwner = (req, res, next) => {
+    if (req.user && req.user.role === "owner") {
+        next();
+    } else {
+        return res.status(403).json({ success: false, message: "Access denied. Owners only." });
+    }
+};
+
