@@ -6,6 +6,7 @@ import userRoutes from "./routes/userRoutes.js";
 import ownerRouter from "./routes/ownerRoutes.js";
 import bookingRouter from "./routes/bookingRoutes.js";
 import paymentRouter from "./routes/paymentRoutes.js";
+import aiRoutes from "./routes/aiRoutes.js";
 
 const app = express();
 export default app; // Export for Vercel
@@ -35,6 +36,7 @@ app.use("/api/user",     userRoutes);
 app.use("/api/owner",    ownerRouter);
 app.use("/api/bookings", bookingRouter);
 app.use("/api/payment",  paymentRouter);
+app.use("/api/ai",       aiRoutes);
 
 // ─── Centralized error handler ────────────────────────────────────────────────
 // Must be registered AFTER routes

@@ -16,13 +16,6 @@ const Footer = () => {
                 className="flex flex-wrap justify-between items-start gap-10 pb-10 border-b border-borderColor"
             >
                 <div className="max-w-sm">
-                    <motion.img
-                        {...fadeUp(0.2)}
-                        src={assets.logo}
-                        alt="logo"
-                        className="h-9 mb-3"
-                    />
-
                     <motion.p {...fadeUp(0.3)} className="leading-relaxed">
                         Premium car rental service with a wide selection of luxury and
                         everyday vehicles for all your driving needs.

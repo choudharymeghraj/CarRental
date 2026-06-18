@@ -16,6 +16,7 @@ import PaymentSuccess from './pages/PaymentSuccess'
 import PaymentFailed from './pages/PaymentFailed'
 import { Toaster } from 'react-hot-toast'
 import { useAppContext } from './context/AppContext'
+import AIAdvisor from './components/AIAdvisor'
 
 const App = () => {
 
@@ -53,6 +54,9 @@ const App = () => {
 
       {/* ✅ Footer */}
       {!isOwnerPath && <Footer />}
+
+      {/* ✅ AI Advisor Bot */}
+      {!isOwnerPath && <AIAdvisor />}
     </>
   )
 }
